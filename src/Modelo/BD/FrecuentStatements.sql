@@ -34,3 +34,15 @@
 -- DELETE FROM detallesnominas WHERE detallesnominas.iddetallesnominas = 1;
 -- DELETE FROM empleados WHERE empleados.idempleado = 1;
 -- DELETE FROM nominas WHERE nominas.idnomina = 1;
+
+----------------------HISTORIAL---------------------------------------------
+DELETE FROM empleados WHERE empleados.idempleado = 1;
+DELETE FROM contratos WHERE contratos.idcontrato = 1;
+DELETE FROM categorias WHERE categorias.idcategoria = 1;
+ALTER TABLE categorias AUTO_INCREMENT = 1;
+-- ALTER TABLE complementos AUTO_INCREMENT = 1;
+ALTER TABLE contratos AUTO_INCREMENT = 1;
+-- ALTER TABLE deducciones AUTO_INCREMENT = 1;
+-- ALTER TABLE detallesnominas AUTO_INCREMENT = 1;
+ALTER TABLE empleados AUTO_INCREMENT = 1;
+-- ALTER TABLE nominas AUTO_INCREMENT = 1;

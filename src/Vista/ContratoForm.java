@@ -258,6 +258,8 @@ public class ContratoForm extends javax.swing.JDialog {
             categoriaNueva.setIdcontrato(contratoNuevo);
             categoriaController.create(categoriaNueva);
             
+            if(EmpleadoForm.contratoFk.getIdempleado() != null)
+                contratoNuevo.setIdempleado(EmpleadoForm.contratoFk.getIdempleado());
             JOptionPane.showMessageDialog(null, "CONTRATO CREADO");
             verificador.borrarCampos(textFields);
             conexion.close();

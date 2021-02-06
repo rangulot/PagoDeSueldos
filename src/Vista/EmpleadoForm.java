@@ -33,6 +33,7 @@ public class EmpleadoForm extends javax.swing.JDialog {
     private final ArrayList<JTextField> textFields;
     private final VerificadorCampos verificador;
     private EntityManagerFactory conexion;
+    public static Contratos contratoFk;
     private int estado;
     private Date fechaHoy;
     
@@ -43,6 +44,7 @@ public class EmpleadoForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         
         conexion = Persistence.createEntityManagerFactory("PagoDeSueldosUmlPU");
+        contratoFk = new Contratos();
         fechaHoy = new Date();
         verificador = new VerificadorCampos();
         
@@ -254,16 +256,27 @@ public class EmpleadoForm extends javax.swing.JDialog {
             ContratosJpaController empleadoContratoFk = new ContratosJpaController(conexion);
             DetallesnominasJpaController empleadoDetallesNominasFk = new DetallesnominasJpaController(conexion);
             
-            int id = empleadoController.getEmpleadosCount()+1;
+            int idEmpleado = empleadoController.getEmpleadosCount()+1;
+            int idContrato = empleadoContratoFk.getContratosCount()+1;
+            int idDetallesNominas = empleadoDetallesNominasFk.getDetallesnominasCount()+1;
             
-            Empleados empleadoNuevo = new Empleados(id, nombres.getText(),
+            Empleados empleadoNuevo = new Empleados(idEmpleado, nombres.getText(),
                     apellidos.getText(), direccion.getText(), dni.getText(), cuentaCorriente.getText(),
                     telefono.getText(), fechaHoy.toString(), estado);
             
-            Contratos contratoFk = new Contratos(id);
+            
             contratoFk.setIdempleado(empleadoNuevo);
             
+            Detallesnominas detallesNominasFk = new Detallesnominas();
+            detallesNominasFk.setIdempleado(empleadoNuevo);
+            
             empleadoController.create(empleadoNuevo);
+//            
+//            if(idContrato != 0)
+//                empleadoContratoFk.create(contratoFk);
+//            
+//            if(idDetallesNominas != 0)
+//                empleadoDetallesNominasFk.create(detallesNominasFk);
             
             JOptionPane.showMessageDialog(null, "EMPLEADO CREADO");
             verificador.borrarCampos(textFields);
@@ -297,7 +310,8 @@ public class EmpleadoForm extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        
+        ContratoForm contratoFormulario = new ContratoForm(null, rootPaneCheckingEnabled);
+        contratoFormulario.setVisible(true);
     }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
