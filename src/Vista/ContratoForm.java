@@ -7,10 +7,11 @@ package Vista;
 
 import Control.CategoriasJpaController;
 import Control.ContratosJpaController;
+import Control.EmpleadosJpaController;
+import Control.VerificadorCampos;
 import Modelo.Categorias;
 import Modelo.Contratos;
 import Modelo.Empleados;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.EntityManagerFactory;
@@ -30,6 +31,7 @@ public class ContratoForm extends javax.swing.JDialog {
      */
     private final ArrayList<JLabel> labels;
     private final ArrayList<JTextField> textfields;
+    private final VerificadorCampos verificador;
     private EntityManagerFactory conexion;
     ContratosJpaController contratoController;
     CategoriasJpaController categoriaController;
@@ -39,10 +41,11 @@ public class ContratoForm extends javax.swing.JDialog {
     @SuppressWarnings("OverridableMethodCallInConstructor")
     public ContratoForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        
         conexion = Persistence.createEntityManagerFactory("PagoDeSueldosUmlPU");
         contratoController = new ContratosJpaController(conexion);
         categoriaController = new CategoriasJpaController(conexion);
-        
+        verificador = new VerificadorCampos();
         fechaHoy = new Date();
         
         labels = new ArrayList<>();
@@ -68,24 +71,6 @@ public class ContratoForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }
     
-    public void validaNumeros(java.awt.event.KeyEvent evt){
-        char key = evt.getKeyChar();
-        int k = Integer.valueOf(key);
-        
-        if((k < 48 && k != 8)  || k > 57){
-            Toolkit.getDefaultToolkit().beep();
-            evt.consume();
-        }else if(k == 8)
-            evt.consume();
-    }
-    
-    public void borrarCampos(){
-        numeroContrato.setText("");
-        categoria.setText("");
-        puestoDestino.setText("");
-        sueldoBasico.setText("");
-        tipoContrato.setText("");
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -123,20 +108,9 @@ public class ContratoForm extends javax.swing.JDialog {
         numeroContrato.setEditable(false);
         numeroContrato.setDragEnabled(true);
 
-        sueldoBasico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sueldoBasicoActionPerformed(evt);
-            }
-        });
         sueldoBasico.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 sueldoBasicoKeyTyped(evt);
-            }
-        });
-
-        tipoContrato.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tipoContratoKeyTyped(evt);
             }
         });
 
@@ -180,18 +154,6 @@ public class ContratoForm extends javax.swing.JDialog {
 
         fechaDeBajaLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         fechaDeBajaLabel.setText("Fecha de baja");
-
-        fechaDeAlta.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                fechaDeAltaKeyTyped(evt);
-            }
-        });
-
-        fechaDeBaja.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                fechaDeBajaKeyTyped(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -283,7 +245,8 @@ public class ContratoForm extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         estado = 1;
-        Empleados empleado = new Empleados();
+//        Empleados empleado = new Empleados();
+//        EmpleadosJpaController empleadoController = new EmpleadosJpaController(conexion);
         
         Categorias nuevaCategoria = new Categorias(categoriaController.getCategoriasCount()+1, 
                 categoria.getText(), Double.parseDouble(sueldoBasico.getText()), 
@@ -291,38 +254,21 @@ public class ContratoForm extends javax.swing.JDialog {
         Contratos nuevoContrato = new Contratos(contratoController.getContratosCount()+1, 
                 tipoContrato.getText(), fechaDeAlta.getText(), fechaDeBaja.getText(), 
                 fechaHoy.toString(), estado);
-        nuevoContrato.setIdempleado(empleado);
         
         categoriaController.create(nuevaCategoria);
         contratoController.create(nuevoContrato);
         JOptionPane.showMessageDialog(null, "CONTRATO CREADO");
-        borrarCampos();
+        verificador.borrarCampos(textfields);
         conexion.close();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void sueldoBasicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sueldoBasicoActionPerformed
-        
-    }//GEN-LAST:event_sueldoBasicoActionPerformed
-
     private void sueldoBasicoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sueldoBasicoKeyTyped
-        validaNumeros(evt);
+        verificador.validaNumeros(evt);
     }//GEN-LAST:event_sueldoBasicoKeyTyped
 
-    private void tipoContratoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tipoContratoKeyTyped
-        
-    }//GEN-LAST:event_tipoContratoKeyTyped
-
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        borrarCampos();
+        verificador.borrarCampos(textfields);
     }//GEN-LAST:event_btnBorrarActionPerformed
-
-    private void fechaDeAltaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fechaDeAltaKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fechaDeAltaKeyTyped
-
-    private void fechaDeBajaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fechaDeBajaKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fechaDeBajaKeyTyped
 
     /**
      * @param args the command line arguments

@@ -150,14 +150,10 @@
     </Component>
     <Component class="javax.swing.JTextField" name="sueldoBasico">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sueldoBasicoActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="sueldoBasicoKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tipoContrato">
-      <Events>
-        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tipoContratoKeyTyped"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnGuardar">
       <Properties>
@@ -247,14 +243,8 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="fechaDeAlta">
-      <Events>
-        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="fechaDeAltaKeyTyped"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="fechaDeBaja">
-      <Events>
-        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="fechaDeBajaKeyTyped"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>
