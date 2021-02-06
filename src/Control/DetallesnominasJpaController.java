@@ -21,7 +21,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author hacke
+ * @author ROBERTO
  */
 public class DetallesnominasJpaController implements Serializable {
 
@@ -80,7 +80,7 @@ public class DetallesnominasJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Detallesnominas persistentDetallesnominas = em.find(Detallesnominas.class, detallesnominas.getIddetallenomina());
+            Detallesnominas persistentDetallesnominas = em.find(Detallesnominas.class, detallesnominas.getIddetallesnominas());
             Nominas idnominaOld = persistentDetallesnominas.getIdnomina();
             Nominas idnominaNew = detallesnominas.getIdnomina();
             Empleados idempleadoOld = persistentDetallesnominas.getIdempleado();
@@ -128,7 +128,7 @@ public class DetallesnominasJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = detallesnominas.getIddetallenomina();
+                Integer id = detallesnominas.getIddetallesnominas();
                 if (findDetallesnominas(id) == null) {
                     throw new NonexistentEntityException("The detallesnominas with id " + id + " no longer exists.");
                 }
@@ -149,7 +149,7 @@ public class DetallesnominasJpaController implements Serializable {
             Detallesnominas detallesnominas;
             try {
                 detallesnominas = em.getReference(Detallesnominas.class, id);
-                detallesnominas.getIddetallenomina();
+                detallesnominas.getIddetallesnominas();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The detallesnominas with id " + id + " no longer exists.", enfe);
             }

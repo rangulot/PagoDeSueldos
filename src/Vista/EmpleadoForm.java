@@ -257,37 +257,20 @@ public class EmpleadoForm extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(verificador.verificarSiCamposVacios(textFields,labels)){
+            estado = 1;
             EmpleadosJpaController empleadoController = new EmpleadosJpaController(conexion);
-            ContratosJpaController contratoController = new ContratosJpaController(conexion);
-            CategoriasJpaController categoriaController = new CategoriasJpaController(conexion);
-            ComplementosJpaController complementoController = new ComplementosJpaController(conexion);
-            DeduccionesJpaController deduccionController = new DeduccionesJpaController(conexion);
-            NominasJpaController nominaController = new NominasJpaController(conexion);
-            DetallesnominasJpaController detalleNominaController = new DetallesnominasJpaController(conexion);
             
             int id = empleadoController.getEmpleadosCount()+1;
             
-            Empleados empleado = new Empleados(id, nombres.getText(),
+            Empleados empleadoNuevo = new Empleados(id, nombres.getText(),
                     apellidos.getText(), direccion.getText(), dni.getText(), cuentaCorriente.getText(),
                     telefono.getText(), fechaHoy.toString(), estado);
             
-            Contratos contrato = new Contratos(id);
-            Categorias categoria = new Categorias(id);
-            Complementos complemento = new Complementos(id);
-            Deducciones deduccion = new Deducciones(id);
-            Nominas nomina = new Nominas(id);
-            Detallesnominas detallesNominas = new Detallesnominas(id);
-            
-            empleadoController.create(empleado);
-            contratoController.create(contrato);
-            complementoController.create(complemento);
-            deduccionController.create(deduccion);
-            nominaController.create(nomina);
-            detalleNominaController.create(detallesNominas);
+            empleadoController.create(empleadoNuevo);
             
             JOptionPane.showMessageDialog(null, "EMPLEADO CREADO");
             verificador.borrarCampos(textFields);
-            System.out.println(empleado.getIdempleado());
+            System.out.println(empleadoNuevo.getIdempleado());
             conexion.close();
         }
     }//GEN-LAST:event_btnGuardarActionPerformed

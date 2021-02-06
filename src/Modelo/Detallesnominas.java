@@ -21,14 +21,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author hacke
+ * @author ROBERTO
  */
 @Entity
-@Table(name = "detallesnominas")
+@Table(name = "detallesnominas", catalog = "pago_de_sueldos", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Detallesnominas.findAll", query = "SELECT d FROM Detallesnominas d")
-    , @NamedQuery(name = "Detallesnominas.findByIddetallenomina", query = "SELECT d FROM Detallesnominas d WHERE d.iddetallenomina = :iddetallenomina")
+    , @NamedQuery(name = "Detallesnominas.findByIddetallesnominas", query = "SELECT d FROM Detallesnominas d WHERE d.iddetallesnominas = :iddetallesnominas")
     , @NamedQuery(name = "Detallesnominas.findByResponsable", query = "SELECT d FROM Detallesnominas d WHERE d.responsable = :responsable")
     , @NamedQuery(name = "Detallesnominas.findByFechaActualizacion", query = "SELECT d FROM Detallesnominas d WHERE d.fechaActualizacion = :fechaActualizacion")
     , @NamedQuery(name = "Detallesnominas.findByEstado", query = "SELECT d FROM Detallesnominas d WHERE d.estado = :estado")})
@@ -38,47 +38,47 @@ public class Detallesnominas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "iddetallenomina")
-    private Integer iddetallenomina;
+    @Column(name = "iddetallesnominas", nullable = false)
+    private Integer iddetallesnominas;
     @Basic(optional = false)
-    @Column(name = "responsable")
+    @Column(name = "responsable", nullable = false, length = 255)
     private String responsable;
     @Basic(optional = false)
-    @Column(name = "fecha_actualizacion")
+    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
     private String fechaActualizacion;
     @Basic(optional = false)
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = false)
     private int estado;
     @JoinColumn(name = "idnomina", referencedColumnName = "idnomina")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Nominas idnomina;
     @JoinColumn(name = "idempleado", referencedColumnName = "idempleado")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Empleados idempleado;
     @JoinColumn(name = "iddeduccion", referencedColumnName = "iddeduccion")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Deducciones iddeduccion;
 
     public Detallesnominas() {
     }
 
-    public Detallesnominas(Integer iddetallenomina) {
-        this.iddetallenomina = iddetallenomina;
+    public Detallesnominas(Integer iddetallesnominas) {
+        this.iddetallesnominas = iddetallesnominas;
     }
 
-    public Detallesnominas(Integer iddetallenomina, String responsable, String fechaActualizacion, int estado) {
-        this.iddetallenomina = iddetallenomina;
+    public Detallesnominas(Integer iddetallesnominas, String responsable, String fechaActualizacion, int estado) {
+        this.iddetallesnominas = iddetallesnominas;
         this.responsable = responsable;
         this.fechaActualizacion = fechaActualizacion;
         this.estado = estado;
     }
 
-    public Integer getIddetallenomina() {
-        return iddetallenomina;
+    public Integer getIddetallesnominas() {
+        return iddetallesnominas;
     }
 
-    public void setIddetallenomina(Integer iddetallenomina) {
-        this.iddetallenomina = iddetallenomina;
+    public void setIddetallesnominas(Integer iddetallesnominas) {
+        this.iddetallesnominas = iddetallesnominas;
     }
 
     public String getResponsable() {
@@ -132,7 +132,7 @@ public class Detallesnominas implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (iddetallenomina != null ? iddetallenomina.hashCode() : 0);
+        hash += (iddetallesnominas != null ? iddetallesnominas.hashCode() : 0);
         return hash;
     }
 
@@ -143,7 +143,7 @@ public class Detallesnominas implements Serializable {
             return false;
         }
         Detallesnominas other = (Detallesnominas) object;
-        if ((this.iddetallenomina == null && other.iddetallenomina != null) || (this.iddetallenomina != null && !this.iddetallenomina.equals(other.iddetallenomina))) {
+        if ((this.iddetallesnominas == null && other.iddetallesnominas != null) || (this.iddetallesnominas != null && !this.iddetallesnominas.equals(other.iddetallesnominas))) {
             return false;
         }
         return true;
@@ -151,7 +151,7 @@ public class Detallesnominas implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelo.Detallesnominas[ iddetallenomina=" + iddetallenomina + " ]";
+        return "Modelo.Detallesnominas[ iddetallesnominas=" + iddetallesnominas + " ]";
     }
     
 }

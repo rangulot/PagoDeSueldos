@@ -5,7 +5,6 @@
  */
 package Control;
 
-import Control.exceptions.IllegalOrphanException;
 import Control.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -21,7 +20,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author hacke
+ * @author ROBERTO
  */
 public class NominasJpaController implements Serializable {
 
@@ -44,7 +43,7 @@ public class NominasJpaController implements Serializable {
             em.getTransaction().begin();
             List<Detallesnominas> attachedDetallesnominasList = new ArrayList<Detallesnominas>();
             for (Detallesnominas detallesnominasListDetallesnominasToAttach : nominas.getDetallesnominasList()) {
-                detallesnominasListDetallesnominasToAttach = em.getReference(detallesnominasListDetallesnominasToAttach.getClass(), detallesnominasListDetallesnominasToAttach.getIddetallenomina());
+                detallesnominasListDetallesnominasToAttach = em.getReference(detallesnominasListDetallesnominasToAttach.getClass(), detallesnominasListDetallesnominasToAttach.getIddetallesnominas());
                 attachedDetallesnominasList.add(detallesnominasListDetallesnominasToAttach);
             }
             nominas.setDetallesnominasList(attachedDetallesnominasList);
@@ -66,7 +65,7 @@ public class NominasJpaController implements Serializable {
         }
     }
 
-    public void edit(Nominas nominas) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Nominas nominas) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -74,26 +73,20 @@ public class NominasJpaController implements Serializable {
             Nominas persistentNominas = em.find(Nominas.class, nominas.getIdnomina());
             List<Detallesnominas> detallesnominasListOld = persistentNominas.getDetallesnominasList();
             List<Detallesnominas> detallesnominasListNew = nominas.getDetallesnominasList();
-            List<String> illegalOrphanMessages = null;
-            for (Detallesnominas detallesnominasListOldDetallesnominas : detallesnominasListOld) {
-                if (!detallesnominasListNew.contains(detallesnominasListOldDetallesnominas)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Detallesnominas " + detallesnominasListOldDetallesnominas + " since its idnomina field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             List<Detallesnominas> attachedDetallesnominasListNew = new ArrayList<Detallesnominas>();
             for (Detallesnominas detallesnominasListNewDetallesnominasToAttach : detallesnominasListNew) {
-                detallesnominasListNewDetallesnominasToAttach = em.getReference(detallesnominasListNewDetallesnominasToAttach.getClass(), detallesnominasListNewDetallesnominasToAttach.getIddetallenomina());
+                detallesnominasListNewDetallesnominasToAttach = em.getReference(detallesnominasListNewDetallesnominasToAttach.getClass(), detallesnominasListNewDetallesnominasToAttach.getIddetallesnominas());
                 attachedDetallesnominasListNew.add(detallesnominasListNewDetallesnominasToAttach);
             }
             detallesnominasListNew = attachedDetallesnominasListNew;
             nominas.setDetallesnominasList(detallesnominasListNew);
             nominas = em.merge(nominas);
+            for (Detallesnominas detallesnominasListOldDetallesnominas : detallesnominasListOld) {
+                if (!detallesnominasListNew.contains(detallesnominasListOldDetallesnominas)) {
+                    detallesnominasListOldDetallesnominas.setIdnomina(null);
+                    detallesnominasListOldDetallesnominas = em.merge(detallesnominasListOldDetallesnominas);
+                }
+            }
             for (Detallesnominas detallesnominasListNewDetallesnominas : detallesnominasListNew) {
                 if (!detallesnominasListOld.contains(detallesnominasListNewDetallesnominas)) {
                     Nominas oldIdnominaOfDetallesnominasListNewDetallesnominas = detallesnominasListNewDetallesnominas.getIdnomina();
@@ -122,7 +115,7 @@ public class NominasJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -134,16 +127,10 @@ public class NominasJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The nominas with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Detallesnominas> detallesnominasListOrphanCheck = nominas.getDetallesnominasList();
-            for (Detallesnominas detallesnominasListOrphanCheckDetallesnominas : detallesnominasListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Nominas (" + nominas + ") cannot be destroyed since the Detallesnominas " + detallesnominasListOrphanCheckDetallesnominas + " in its detallesnominasList field has a non-nullable idnomina field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            List<Detallesnominas> detallesnominasList = nominas.getDetallesnominasList();
+            for (Detallesnominas detallesnominasListDetallesnominas : detallesnominasList) {
+                detallesnominasListDetallesnominas.setIdnomina(null);
+                detallesnominasListDetallesnominas = em.merge(detallesnominasListDetallesnominas);
             }
             em.remove(nominas);
             em.getTransaction().commit();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 05-02-2021 a las 20:21:40
+-- Tiempo de generación: 06-02-2021 a las 05:41:59
 -- Versión del servidor: 10.4.10-MariaDB
 -- Versión de PHP: 7.3.12
 
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `complementos` (
 DROP TABLE IF EXISTS `contratos`;
 CREATE TABLE IF NOT EXISTS `contratos` (
   `idcontrato` int(11) NOT NULL AUTO_INCREMENT,
-  `idempleado` int(11) NOT NULL,
+  `idempleado` int(11) DEFAULT NULL,
   `idcategoria` int(11) DEFAULT NULL,
   `idcomplemento` int(11) DEFAULT NULL,
   `tipoContrato` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
@@ -109,14 +109,14 @@ CREATE TABLE IF NOT EXISTS `deducciones` (
 
 DROP TABLE IF EXISTS `detallesnominas`;
 CREATE TABLE IF NOT EXISTS `detallesnominas` (
-  `iddetallenomina` int(11) NOT NULL AUTO_INCREMENT,
-  `idnomina` int(11) NOT NULL,
-  `idempleado` int(11) NOT NULL,
-  `iddeduccion` int(11) NOT NULL,
+  `iddetallesnominas` int(11) NOT NULL AUTO_INCREMENT,
+  `idnomina` int(11) DEFAULT NULL,
+  `idempleado` int(11) DEFAULT NULL,
+  `iddeduccion` int(11) DEFAULT NULL,
   `responsable` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `estado` int(11) NOT NULL,
-  PRIMARY KEY (`iddetallenomina`),
+  PRIMARY KEY (`iddetallesnominas`),
   KEY `idnomina` (`idnomina`),
   KEY `idempleado` (`idempleado`),
   KEY `iddeduccion` (`iddeduccion`)
@@ -140,7 +140,14 @@ CREATE TABLE IF NOT EXISTS `empleados` (
   `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `estado` int(11) NOT NULL,
   PRIMARY KEY (`idempleado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `empleados`
+--
+
+INSERT INTO `empleados` (`idempleado`, `nombres`, `apellidos`, `direccion`, `dni`, `cuenta_corriente`, `telefono`, `fecha_actualizacion`, `estado`) VALUES
+(1, 'Roberto', 'Angulo', 'dsdfsd', '32423', '423423', '42342', 'Sat Feb 06 00:33:27 COT 2021', 1);
 
 -- --------------------------------------------------------
 

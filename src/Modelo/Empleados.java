@@ -8,7 +8,6 @@ package Modelo;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,10 +22,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hacke
+ * @author ROBERTO
  */
 @Entity
-@Table(name = "empleados")
+@Table(name = "empleados", catalog = "pago_de_sueldos", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Empleados.findAll", query = "SELECT e FROM Empleados e")
@@ -45,35 +44,35 @@ public class Empleados implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idempleado")
+    @Column(name = "idempleado", nullable = false)
     private Integer idempleado;
     @Basic(optional = false)
-    @Column(name = "nombres")
+    @Column(name = "nombres", nullable = false, length = 255)
     private String nombres;
     @Basic(optional = false)
-    @Column(name = "apellidos")
+    @Column(name = "apellidos", nullable = false, length = 255)
     private String apellidos;
     @Basic(optional = false)
-    @Column(name = "direccion")
+    @Column(name = "direccion", nullable = false, length = 255)
     private String direccion;
     @Basic(optional = false)
-    @Column(name = "dni")
+    @Column(name = "dni", nullable = false, length = 20)
     private String dni;
     @Basic(optional = false)
-    @Column(name = "cuenta_corriente")
+    @Column(name = "cuenta_corriente", nullable = false, length = 20)
     private String cuentaCorriente;
     @Basic(optional = false)
-    @Column(name = "telefono")
+    @Column(name = "telefono", nullable = false, length = 20)
     private String telefono;
     @Basic(optional = false)
-    @Column(name = "fecha_actualizacion")
+    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
     private String fechaActualizacion;
     @Basic(optional = false)
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = false)
     private int estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idempleado")
+    @OneToMany(mappedBy = "idempleado")
     private List<Contratos> contratosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idempleado")
+    @OneToMany(mappedBy = "idempleado")
     private List<Detallesnominas> detallesnominasList;
 
     public Empleados() {

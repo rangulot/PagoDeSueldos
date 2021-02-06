@@ -24,10 +24,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hacke
+ * @author ROBERTO
  */
 @Entity
-@Table(name = "categorias")
+@Table(name = "categorias", catalog = "pago_de_sueldos", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Categorias.findAll", query = "SELECT c FROM Categorias c")
@@ -43,22 +43,22 @@ public class Categorias implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idcategoria")
+    @Column(name = "idcategoria", nullable = false)
     private Integer idcategoria;
     @Basic(optional = false)
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false, length = 255)
     private String nombre;
     @Basic(optional = false)
-    @Column(name = "sueldobasico")
+    @Column(name = "sueldobasico", nullable = false)
     private double sueldobasico;
     @Basic(optional = false)
-    @Column(name = "puestodestino")
+    @Column(name = "puestodestino", nullable = false, length = 255)
     private String puestodestino;
     @Basic(optional = false)
-    @Column(name = "fecha_actualizacion")
+    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
     private String fechaActualizacion;
     @Basic(optional = false)
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = false)
     private int estado;
     @JoinColumn(name = "idcontrato", referencedColumnName = "idcontrato")
     @ManyToOne

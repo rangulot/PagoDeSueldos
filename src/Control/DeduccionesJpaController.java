@@ -5,7 +5,6 @@
  */
 package Control;
 
-import Control.exceptions.IllegalOrphanException;
 import Control.exceptions.NonexistentEntityException;
 import Modelo.Deducciones;
 import java.io.Serializable;
@@ -21,7 +20,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author hacke
+ * @author ROBERTO
  */
 public class DeduccionesJpaController implements Serializable {
 
@@ -44,7 +43,7 @@ public class DeduccionesJpaController implements Serializable {
             em.getTransaction().begin();
             List<Detallesnominas> attachedDetallesnominasList = new ArrayList<Detallesnominas>();
             for (Detallesnominas detallesnominasListDetallesnominasToAttach : deducciones.getDetallesnominasList()) {
-                detallesnominasListDetallesnominasToAttach = em.getReference(detallesnominasListDetallesnominasToAttach.getClass(), detallesnominasListDetallesnominasToAttach.getIddetallenomina());
+                detallesnominasListDetallesnominasToAttach = em.getReference(detallesnominasListDetallesnominasToAttach.getClass(), detallesnominasListDetallesnominasToAttach.getIddetallesnominas());
                 attachedDetallesnominasList.add(detallesnominasListDetallesnominasToAttach);
             }
             deducciones.setDetallesnominasList(attachedDetallesnominasList);
@@ -66,7 +65,7 @@ public class DeduccionesJpaController implements Serializable {
         }
     }
 
-    public void edit(Deducciones deducciones) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Deducciones deducciones) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -74,26 +73,20 @@ public class DeduccionesJpaController implements Serializable {
             Deducciones persistentDeducciones = em.find(Deducciones.class, deducciones.getIddeduccion());
             List<Detallesnominas> detallesnominasListOld = persistentDeducciones.getDetallesnominasList();
             List<Detallesnominas> detallesnominasListNew = deducciones.getDetallesnominasList();
-            List<String> illegalOrphanMessages = null;
-            for (Detallesnominas detallesnominasListOldDetallesnominas : detallesnominasListOld) {
-                if (!detallesnominasListNew.contains(detallesnominasListOldDetallesnominas)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Detallesnominas " + detallesnominasListOldDetallesnominas + " since its iddeduccion field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             List<Detallesnominas> attachedDetallesnominasListNew = new ArrayList<Detallesnominas>();
             for (Detallesnominas detallesnominasListNewDetallesnominasToAttach : detallesnominasListNew) {
-                detallesnominasListNewDetallesnominasToAttach = em.getReference(detallesnominasListNewDetallesnominasToAttach.getClass(), detallesnominasListNewDetallesnominasToAttach.getIddetallenomina());
+                detallesnominasListNewDetallesnominasToAttach = em.getReference(detallesnominasListNewDetallesnominasToAttach.getClass(), detallesnominasListNewDetallesnominasToAttach.getIddetallesnominas());
                 attachedDetallesnominasListNew.add(detallesnominasListNewDetallesnominasToAttach);
             }
             detallesnominasListNew = attachedDetallesnominasListNew;
             deducciones.setDetallesnominasList(detallesnominasListNew);
             deducciones = em.merge(deducciones);
+            for (Detallesnominas detallesnominasListOldDetallesnominas : detallesnominasListOld) {
+                if (!detallesnominasListNew.contains(detallesnominasListOldDetallesnominas)) {
+                    detallesnominasListOldDetallesnominas.setIddeduccion(null);
+                    detallesnominasListOldDetallesnominas = em.merge(detallesnominasListOldDetallesnominas);
+                }
+            }
             for (Detallesnominas detallesnominasListNewDetallesnominas : detallesnominasListNew) {
                 if (!detallesnominasListOld.contains(detallesnominasListNewDetallesnominas)) {
                     Deducciones oldIddeduccionOfDetallesnominasListNewDetallesnominas = detallesnominasListNewDetallesnominas.getIddeduccion();
@@ -122,7 +115,7 @@ public class DeduccionesJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -134,16 +127,10 @@ public class DeduccionesJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The deducciones with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Detallesnominas> detallesnominasListOrphanCheck = deducciones.getDetallesnominasList();
-            for (Detallesnominas detallesnominasListOrphanCheckDetallesnominas : detallesnominasListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Deducciones (" + deducciones + ") cannot be destroyed since the Detallesnominas " + detallesnominasListOrphanCheckDetallesnominas + " in its detallesnominasList field has a non-nullable iddeduccion field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            List<Detallesnominas> detallesnominasList = deducciones.getDetallesnominasList();
+            for (Detallesnominas detallesnominasListDetallesnominas : detallesnominasList) {
+                detallesnominasListDetallesnominas.setIddeduccion(null);
+                detallesnominasListDetallesnominas = em.merge(detallesnominasListDetallesnominas);
             }
             em.remove(deducciones);
             em.getTransaction().commit();

@@ -7,11 +7,9 @@ package Vista;
 
 import Control.CategoriasJpaController;
 import Control.ContratosJpaController;
-import Control.EmpleadosJpaController;
 import Control.VerificadorCampos;
 import Modelo.Categorias;
 import Modelo.Contratos;
-import Modelo.Empleados;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.EntityManagerFactory;
@@ -30,23 +28,22 @@ public class ContratoForm extends javax.swing.JDialog {
      * Creates new form EmpleadoForm
      */
     private final ArrayList<JLabel> labels;
-    private final ArrayList<JTextField> textfields;
+    private final ArrayList<JTextField> textFields;
     private final VerificadorCampos verificador;
     private EntityManagerFactory conexion;
-    ContratosJpaController contratoController;
-    CategoriasJpaController categoriaController;
-    private int estado;
+    private ContratosJpaController contratoController;
+    private int estado,id;
     private Date fechaHoy;
     
     @SuppressWarnings("OverridableMethodCallInConstructor")
     public ContratoForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        
+        initComponents();
         conexion = Persistence.createEntityManagerFactory("PagoDeSueldosUmlPU");
-        contratoController = new ContratosJpaController(conexion);
-        categoriaController = new CategoriasJpaController(conexion);
         verificador = new VerificadorCampos();
         fechaHoy = new Date();
+        contratoController = new ContratosJpaController(conexion);
+        id = contratoController.getContratosCount()+1;
         
         labels = new ArrayList<>();
         labels.add(numeroContratoLabel);
@@ -57,17 +54,16 @@ public class ContratoForm extends javax.swing.JDialog {
         labels.add(fechaDeAltaLabel);
         labels.add(fechaDeBajaLabel);
         
-        textfields = new ArrayList<>();
-        textfields.add(numeroContrato);
-        textfields.add(categoria);
-        textfields.add(puestoDestino);
-        textfields.add(sueldoBasico);
-        textfields.add(tipoContrato);
-        textfields.add(fechaDeAlta);
-        textfields.add(fechaDeBaja);
+        textFields = new ArrayList<>();
+        textFields.add(numeroContrato);
+        textFields.add(categoria);
+        textFields.add(puestoDestino);
+        textFields.add(sueldoBasico);
+        textFields.add(tipoContrato);
+        textFields.add(fechaDeAlta);
+        textFields.add(fechaDeBaja);
         
-        initComponents();
-        numeroContrato.setText((contratoController.getContratosCount()+1)+"");
+        numeroContrato.setText(String.valueOf(id));
         setLocationRelativeTo(null);
     }
     
@@ -244,22 +240,26 @@ public class ContratoForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        estado = 1;
-//        Empleados empleado = new Empleados();
-//        EmpleadosJpaController empleadoController = new EmpleadosJpaController(conexion);
         
-        Categorias nuevaCategoria = new Categorias(categoriaController.getCategoriasCount()+1, 
-                categoria.getText(), Double.parseDouble(sueldoBasico.getText()), 
-                puestoDestino.getText(), fechaHoy.toString(), estado);
-        Contratos nuevoContrato = new Contratos(contratoController.getContratosCount()+1, 
-                tipoContrato.getText(), fechaDeAlta.getText(), fechaDeBaja.getText(), 
-                fechaHoy.toString(), estado);
-        
-        categoriaController.create(nuevaCategoria);
-        contratoController.create(nuevoContrato);
-        JOptionPane.showMessageDialog(null, "CONTRATO CREADO");
-        verificador.borrarCampos(textfields);
-        conexion.close();
+        if(verificador.verificarSiCamposVacios(textFields,labels)){
+            estado = 1;
+            Contratos contratoNuevo = new Contratos(id, tipoContrato.getText(), fechaDeAlta.getText(),
+                    fechaDeBaja.getText(), fechaHoy.toString(), estado);
+            
+            contratoController.create(contratoNuevo);
+            
+//            CategoriasJpaController categoriaController = new CategoriasJpaController(conexion);
+//            
+//            Categorias categoriaNueva = new Categorias(categoriaController.getCategoriasCount()+1, 
+//                    categoria.getText(), Double.parseDouble(sueldoBasico.getText()), 
+//                    puestoDestino.getText(), fechaHoy.toString(), estado);
+//            
+//            categoriaController.create(categoriaNueva);
+            
+            JOptionPane.showMessageDialog(null, "CONTRATO CREADO");
+            verificador.borrarCampos(textFields);
+            conexion.close();
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void sueldoBasicoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sueldoBasicoKeyTyped
@@ -267,7 +267,7 @@ public class ContratoForm extends javax.swing.JDialog {
     }//GEN-LAST:event_sueldoBasicoKeyTyped
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        verificador.borrarCampos(textfields);
+        verificador.borrarCampos(textFields);
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     /**

@@ -22,10 +22,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hacke
+ * @author ROBERTO
  */
 @Entity
-@Table(name = "complementos")
+@Table(name = "complementos", catalog = "pago_de_sueldos", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Complementos.findAll", query = "SELECT c FROM Complementos c")
@@ -41,22 +41,22 @@ public class Complementos implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idcomplemento")
+    @Column(name = "idcomplemento", nullable = false)
     private Integer idcomplemento;
     @Basic(optional = false)
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false, length = 255)
     private String nombre;
     @Basic(optional = false)
-    @Column(name = "descripcion")
+    @Column(name = "descripcion", nullable = false, length = 255)
     private String descripcion;
     @Basic(optional = false)
-    @Column(name = "valor")
+    @Column(name = "valor", nullable = false)
     private double valor;
     @Basic(optional = false)
-    @Column(name = "fecha_actualizacion")
+    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
     private String fechaActualizacion;
     @Basic(optional = false)
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = false)
     private int estado;
     @OneToMany(mappedBy = "idcomplemento")
     private List<Contratos> contratosList;

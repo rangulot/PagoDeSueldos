@@ -24,10 +24,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hacke
+ * @author ROBERTO
  */
 @Entity
-@Table(name = "contratos")
+@Table(name = "contratos", catalog = "pago_de_sueldos", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Contratos.findAll", query = "SELECT c FROM Contratos c")
@@ -43,27 +43,27 @@ public class Contratos implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idcontrato")
+    @Column(name = "idcontrato", nullable = false)
     private Integer idcontrato;
     @Basic(optional = false)
-    @Column(name = "tipoContrato")
+    @Column(name = "tipoContrato", nullable = false, length = 255)
     private String tipoContrato;
     @Basic(optional = false)
-    @Column(name = "fecha_alta")
+    @Column(name = "fecha_alta", nullable = false, length = 255)
     private String fechaAlta;
     @Basic(optional = false)
-    @Column(name = "fecha_baja")
+    @Column(name = "fecha_baja", nullable = false, length = 255)
     private String fechaBaja;
     @Basic(optional = false)
-    @Column(name = "fecha_actualizacion")
+    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
     private String fechaActualizacion;
     @Basic(optional = false)
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = false)
     private int estado;
     @OneToMany(mappedBy = "idcontrato")
     private List<Categorias> categoriasList;
     @JoinColumn(name = "idempleado", referencedColumnName = "idempleado")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Empleados idempleado;
     @JoinColumn(name = "idcategoria", referencedColumnName = "idcategoria")
     @ManyToOne

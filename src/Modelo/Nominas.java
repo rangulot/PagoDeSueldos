@@ -8,7 +8,6 @@ package Modelo;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,10 +22,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hacke
+ * @author ROBERTO
  */
 @Entity
-@Table(name = "nominas")
+@Table(name = "nominas", catalog = "pago_de_sueldos", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Nominas.findAll", query = "SELECT n FROM Nominas n")
@@ -42,22 +41,22 @@ public class Nominas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idnomina")
+    @Column(name = "idnomina", nullable = false)
     private Integer idnomina;
-    @Column(name = "encargado")
+    @Column(name = "encargado", length = 255)
     private String encargado;
     @Basic(optional = false)
-    @Column(name = "totalapagar")
+    @Column(name = "totalapagar", nullable = false)
     private double totalapagar;
-    @Column(name = "cortemes")
+    @Column(name = "cortemes", length = 255)
     private String cortemes;
     @Basic(optional = false)
-    @Column(name = "fecha_actualizacion")
+    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
     private String fechaActualizacion;
     @Basic(optional = false)
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = false)
     private int estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idnomina")
+    @OneToMany(mappedBy = "idnomina")
     private List<Detallesnominas> detallesnominasList;
 
     public Nominas() {

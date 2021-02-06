@@ -5,7 +5,6 @@
  */
 package Control;
 
-import Control.exceptions.IllegalOrphanException;
 import Control.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -22,7 +21,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author hacke
+ * @author ROBERTO
  */
 public class EmpleadosJpaController implements Serializable {
 
@@ -54,7 +53,7 @@ public class EmpleadosJpaController implements Serializable {
             empleados.setContratosList(attachedContratosList);
             List<Detallesnominas> attachedDetallesnominasList = new ArrayList<Detallesnominas>();
             for (Detallesnominas detallesnominasListDetallesnominasToAttach : empleados.getDetallesnominasList()) {
-                detallesnominasListDetallesnominasToAttach = em.getReference(detallesnominasListDetallesnominasToAttach.getClass(), detallesnominasListDetallesnominasToAttach.getIddetallenomina());
+                detallesnominasListDetallesnominasToAttach = em.getReference(detallesnominasListDetallesnominasToAttach.getClass(), detallesnominasListDetallesnominasToAttach.getIddetallesnominas());
                 attachedDetallesnominasList.add(detallesnominasListDetallesnominasToAttach);
             }
             empleados.setDetallesnominasList(attachedDetallesnominasList);
@@ -85,7 +84,7 @@ public class EmpleadosJpaController implements Serializable {
         }
     }
 
-    public void edit(Empleados empleados) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Empleados empleados) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -95,26 +94,6 @@ public class EmpleadosJpaController implements Serializable {
             List<Contratos> contratosListNew = empleados.getContratosList();
             List<Detallesnominas> detallesnominasListOld = persistentEmpleados.getDetallesnominasList();
             List<Detallesnominas> detallesnominasListNew = empleados.getDetallesnominasList();
-            List<String> illegalOrphanMessages = null;
-            for (Contratos contratosListOldContratos : contratosListOld) {
-                if (!contratosListNew.contains(contratosListOldContratos)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Contratos " + contratosListOldContratos + " since its idempleado field is not nullable.");
-                }
-            }
-            for (Detallesnominas detallesnominasListOldDetallesnominas : detallesnominasListOld) {
-                if (!detallesnominasListNew.contains(detallesnominasListOldDetallesnominas)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Detallesnominas " + detallesnominasListOldDetallesnominas + " since its idempleado field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             List<Contratos> attachedContratosListNew = new ArrayList<Contratos>();
             for (Contratos contratosListNewContratosToAttach : contratosListNew) {
                 contratosListNewContratosToAttach = em.getReference(contratosListNewContratosToAttach.getClass(), contratosListNewContratosToAttach.getIdcontrato());
@@ -124,12 +103,18 @@ public class EmpleadosJpaController implements Serializable {
             empleados.setContratosList(contratosListNew);
             List<Detallesnominas> attachedDetallesnominasListNew = new ArrayList<Detallesnominas>();
             for (Detallesnominas detallesnominasListNewDetallesnominasToAttach : detallesnominasListNew) {
-                detallesnominasListNewDetallesnominasToAttach = em.getReference(detallesnominasListNewDetallesnominasToAttach.getClass(), detallesnominasListNewDetallesnominasToAttach.getIddetallenomina());
+                detallesnominasListNewDetallesnominasToAttach = em.getReference(detallesnominasListNewDetallesnominasToAttach.getClass(), detallesnominasListNewDetallesnominasToAttach.getIddetallesnominas());
                 attachedDetallesnominasListNew.add(detallesnominasListNewDetallesnominasToAttach);
             }
             detallesnominasListNew = attachedDetallesnominasListNew;
             empleados.setDetallesnominasList(detallesnominasListNew);
             empleados = em.merge(empleados);
+            for (Contratos contratosListOldContratos : contratosListOld) {
+                if (!contratosListNew.contains(contratosListOldContratos)) {
+                    contratosListOldContratos.setIdempleado(null);
+                    contratosListOldContratos = em.merge(contratosListOldContratos);
+                }
+            }
             for (Contratos contratosListNewContratos : contratosListNew) {
                 if (!contratosListOld.contains(contratosListNewContratos)) {
                     Empleados oldIdempleadoOfContratosListNewContratos = contratosListNewContratos.getIdempleado();
@@ -139,6 +124,12 @@ public class EmpleadosJpaController implements Serializable {
                         oldIdempleadoOfContratosListNewContratos.getContratosList().remove(contratosListNewContratos);
                         oldIdempleadoOfContratosListNewContratos = em.merge(oldIdempleadoOfContratosListNewContratos);
                     }
+                }
+            }
+            for (Detallesnominas detallesnominasListOldDetallesnominas : detallesnominasListOld) {
+                if (!detallesnominasListNew.contains(detallesnominasListOldDetallesnominas)) {
+                    detallesnominasListOldDetallesnominas.setIdempleado(null);
+                    detallesnominasListOldDetallesnominas = em.merge(detallesnominasListOldDetallesnominas);
                 }
             }
             for (Detallesnominas detallesnominasListNewDetallesnominas : detallesnominasListNew) {
@@ -169,7 +160,7 @@ public class EmpleadosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -181,23 +172,15 @@ public class EmpleadosJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The empleados with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Contratos> contratosListOrphanCheck = empleados.getContratosList();
-            for (Contratos contratosListOrphanCheckContratos : contratosListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Empleados (" + empleados + ") cannot be destroyed since the Contratos " + contratosListOrphanCheckContratos + " in its contratosList field has a non-nullable idempleado field.");
+            List<Contratos> contratosList = empleados.getContratosList();
+            for (Contratos contratosListContratos : contratosList) {
+                contratosListContratos.setIdempleado(null);
+                contratosListContratos = em.merge(contratosListContratos);
             }
-            List<Detallesnominas> detallesnominasListOrphanCheck = empleados.getDetallesnominasList();
-            for (Detallesnominas detallesnominasListOrphanCheckDetallesnominas : detallesnominasListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Empleados (" + empleados + ") cannot be destroyed since the Detallesnominas " + detallesnominasListOrphanCheckDetallesnominas + " in its detallesnominasList field has a non-nullable idempleado field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            List<Detallesnominas> detallesnominasList = empleados.getDetallesnominasList();
+            for (Detallesnominas detallesnominasListDetallesnominas : detallesnominasList) {
+                detallesnominasListDetallesnominas.setIdempleado(null);
+                detallesnominasListDetallesnominas = em.merge(detallesnominasListDetallesnominas);
             }
             em.remove(empleados);
             em.getTransaction().commit();

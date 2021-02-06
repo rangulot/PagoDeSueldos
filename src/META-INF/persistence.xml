@@ -3,10 +3,10 @@
   <persistence-unit name="PagoDeSueldosUmlPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>Modelo.Complementos</class>
-    <class>Modelo.Deducciones</class>
-    <class>Modelo.Contratos</class>
     <class>Modelo.Empleados</class>
     <class>Modelo.Categorias</class>
+    <class>Modelo.Deducciones</class>
+    <class>Modelo.Contratos</class>
     <class>Modelo.Detallesnominas</class>
     <class>Modelo.Nominas</class>
     <properties>

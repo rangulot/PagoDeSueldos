@@ -8,7 +8,6 @@ package Modelo;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,10 +22,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hacke
+ * @author ROBERTO
  */
 @Entity
-@Table(name = "deducciones")
+@Table(name = "deducciones", catalog = "pago_de_sueldos", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Deducciones.findAll", query = "SELECT d FROM Deducciones d")
@@ -45,33 +44,33 @@ public class Deducciones implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "iddeduccion")
+    @Column(name = "iddeduccion", nullable = false)
     private Integer iddeduccion;
     @Basic(optional = false)
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false, length = 255)
     private String nombre;
     @Basic(optional = false)
-    @Column(name = "descripcion")
+    @Column(name = "descripcion", nullable = false, length = 255)
     private String descripcion;
     @Basic(optional = false)
-    @Column(name = "contingencias_comunes")
+    @Column(name = "contingencias_comunes", nullable = false)
     private double contingenciasComunes;
     @Basic(optional = false)
-    @Column(name = "seguridad_social")
+    @Column(name = "seguridad_social", nullable = false)
     private double seguridadSocial;
     @Basic(optional = false)
-    @Column(name = "desempleo")
+    @Column(name = "desempleo", nullable = false)
     private double desempleo;
     @Basic(optional = false)
-    @Column(name = "formacion_profesional")
+    @Column(name = "formacion_profesional", nullable = false)
     private double formacionProfesional;
     @Basic(optional = false)
-    @Column(name = "fecha_actualizacion")
+    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
     private String fechaActualizacion;
     @Basic(optional = false)
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = false)
     private int estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "iddeduccion")
+    @OneToMany(mappedBy = "iddeduccion")
     private List<Detallesnominas> detallesnominasList;
 
     public Deducciones() {
