@@ -5,21 +5,13 @@
  */
 package Vista;
 
-import Control.CategoriasJpaController;
-import Control.ComplementosJpaController;
 import Control.ContratosJpaController;
-import Control.DeduccionesJpaController;
 import Control.DetallesnominasJpaController;
 import Control.EmpleadosJpaController;
-import Control.NominasJpaController;
 import Control.VerificadorCampos;
-import Modelo.Categorias;
-import Modelo.Complementos;
 import Modelo.Contratos;
-import Modelo.Deducciones;
 import Modelo.Detallesnominas;
 import Modelo.Empleados;
-import Modelo.Nominas;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.EntityManagerFactory;
@@ -259,12 +251,17 @@ public class EmpleadoForm extends javax.swing.JDialog {
         if(verificador.verificarSiCamposVacios(textFields,labels)){
             estado = 1;
             EmpleadosJpaController empleadoController = new EmpleadosJpaController(conexion);
+            ContratosJpaController empleadoContratoFk = new ContratosJpaController(conexion);
+            DetallesnominasJpaController empleadoDetallesNominasFk = new DetallesnominasJpaController(conexion);
             
             int id = empleadoController.getEmpleadosCount()+1;
             
             Empleados empleadoNuevo = new Empleados(id, nombres.getText(),
                     apellidos.getText(), direccion.getText(), dni.getText(), cuentaCorriente.getText(),
                     telefono.getText(), fechaHoy.toString(), estado);
+            
+            Contratos contratoFk = new Contratos(id);
+            contratoFk.setIdempleado(empleadoNuevo);
             
             empleadoController.create(empleadoNuevo);
             

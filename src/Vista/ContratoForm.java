@@ -248,13 +248,15 @@ public class ContratoForm extends javax.swing.JDialog {
             
             contratoController.create(contratoNuevo);
             
-//            CategoriasJpaController categoriaController = new CategoriasJpaController(conexion);
-//            
-//            Categorias categoriaNueva = new Categorias(categoriaController.getCategoriasCount()+1, 
-//                    categoria.getText(), Double.parseDouble(sueldoBasico.getText()), 
-//                    puestoDestino.getText(), fechaHoy.toString(), estado);
-//            
-//            categoriaController.create(categoriaNueva);
+            CategoriasJpaController categoriaController = new CategoriasJpaController(conexion);
+            
+            Categorias categoriaNueva = new Categorias(categoriaController.getCategoriasCount()+1, 
+                    categoria.getText(), Double.parseDouble(sueldoBasico.getText()), 
+                    puestoDestino.getText(), fechaHoy.toString(), estado);
+            
+            contratoNuevo.setIdcategoria(categoriaNueva);
+            categoriaNueva.setIdcontrato(contratoNuevo);
+            categoriaController.create(categoriaNueva);
             
             JOptionPane.showMessageDialog(null, "CONTRATO CREADO");
             verificador.borrarCampos(textFields);
