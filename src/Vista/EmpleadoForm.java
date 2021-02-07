@@ -312,6 +312,8 @@ public class EmpleadoForm extends javax.swing.JDialog {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         ContratoForm contratoFormulario = new ContratoForm(null, rootPaneCheckingEnabled);
         contratoFormulario.setVisible(true);
+        this.setVisible(false);
+        System.runFinalization();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
