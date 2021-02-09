@@ -7,6 +7,11 @@
 -- Versión del servidor: 10.4.10-MariaDB
 -- Versión de PHP: 7.3.12
 
+CREATE DATABASE IF NOT EXISTS `pago_de_sueldos`
+DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+USE `pago_de_sueldos`;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -32,11 +37,11 @@ DROP TABLE IF EXISTS `categorias`;
 CREATE TABLE IF NOT EXISTS `categorias` (
   `idcategoria` int(11) NOT NULL AUTO_INCREMENT,
   `idcontrato` int(11) DEFAULT NULL,
-  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `sueldobasico` double NOT NULL,
-  `puestodestino` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `estado` int(11) NOT NULL,
+  `nombre` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `sueldobasico` double DEFAULT NULL,
+  `puestodestino` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL,
   PRIMARY KEY (`idcategoria`),
   KEY `idcontrato` (`idcontrato`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -50,11 +55,11 @@ CREATE TABLE IF NOT EXISTS `categorias` (
 DROP TABLE IF EXISTS `complementos`;
 CREATE TABLE IF NOT EXISTS `complementos` (
   `idcomplemento` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `descripcion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `valor` double NOT NULL,
-  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `estado` int(11) NOT NULL,
+  `nombre` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `descripcion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `valor` double DEFAULT NULL,
+  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL,
   PRIMARY KEY (`idcomplemento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -70,11 +75,11 @@ CREATE TABLE IF NOT EXISTS `contratos` (
   `idempleado` int(11) DEFAULT NULL,
   `idcategoria` int(11) DEFAULT NULL,
   `idcomplemento` int(11) DEFAULT NULL,
-  `tipoContrato` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_alta` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_baja` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `estado` int(11) NOT NULL,
+  `tipoContrato` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `fecha_alta` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `fecha_baja` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL,
   PRIMARY KEY (`idcontrato`),
   KEY `idempleado` (`idempleado`),
   KEY `contratos_ibfk_2` (`idcategoria`),
@@ -90,14 +95,14 @@ CREATE TABLE IF NOT EXISTS `contratos` (
 DROP TABLE IF EXISTS `deducciones`;
 CREATE TABLE IF NOT EXISTS `deducciones` (
   `iddeduccion` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `descripcion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `contingencias_comunes` double NOT NULL,
-  `seguridad_social` double NOT NULL,
-  `desempleo` double NOT NULL,
-  `formacion_profesional` double NOT NULL,
-  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `estado` int(11) NOT NULL,
+  `nombre` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `descripcion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `contingencias_comunes` double DEFAULT NULL,
+  `seguridad_social` double DEFAULT NULL,
+  `desempleo` double DEFAULT NULL,
+  `formacion_profesional` double DEFAULT NULL,
+  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL,
   PRIMARY KEY (`iddeduccion`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -113,9 +118,9 @@ CREATE TABLE IF NOT EXISTS `detallesnominas` (
   `idnomina` int(11) DEFAULT NULL,
   `idempleado` int(11) DEFAULT NULL,
   `iddeduccion` int(11) DEFAULT NULL,
-  `responsable` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `estado` int(11) NOT NULL,
+  `responsable` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL,
   PRIMARY KEY (`iddetallesnominas`),
   KEY `idnomina` (`idnomina`),
   KEY `idempleado` (`idempleado`),
@@ -131,24 +136,20 @@ CREATE TABLE IF NOT EXISTS `detallesnominas` (
 DROP TABLE IF EXISTS `empleados`;
 CREATE TABLE IF NOT EXISTS `empleados` (
   `idempleado` int(11) NOT NULL AUTO_INCREMENT,
-  `nombres` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `apellidos` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `direccion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `dni` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cuenta_corriente` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
-  `telefono` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `estado` int(11) NOT NULL,
+  `nombres` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `apellidos` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `direccion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `dni` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `cuenta_corriente` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `telefono` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL,
   PRIMARY KEY (`idempleado`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `empleados`
 --
-
-INSERT INTO `empleados` (`idempleado`, `nombres`, `apellidos`, `direccion`, `dni`, `cuenta_corriente`, `telefono`, `fecha_actualizacion`, `estado`) VALUES
-(1, 'Roberto', 'Angulo', 'dsdfsd', '32423', '423423', '42342', 'Sat Feb 06 00:33:27 COT 2021', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -159,10 +160,10 @@ DROP TABLE IF EXISTS `nominas`;
 CREATE TABLE IF NOT EXISTS `nominas` (
   `idnomina` int(11) NOT NULL AUTO_INCREMENT,
   `encargado` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `totalapagar` double NOT NULL,
+  `totalapagar` double DEFAULT NULL,
   `cortemes` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `estado` int(11) NOT NULL,
+  `fecha_actualizacion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL,
   PRIMARY KEY (`idnomina`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
