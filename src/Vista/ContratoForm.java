@@ -95,8 +95,9 @@ public class ContratoForm extends javax.swing.JDialog {
         fechaDeAlta = new javax.swing.JTextField();
         fechaDeBaja = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("EMPLEADO NUEVO");
+        setTitle("Contrato nuevo");
+        setModalExclusionType(null);
+        setModalityType(null);
 
         contratoLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         contratoLabel.setText("Datos de Contrato");

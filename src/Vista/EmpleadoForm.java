@@ -91,8 +91,9 @@ public class EmpleadoForm extends javax.swing.JDialog {
         telefonoLabel = new javax.swing.JLabel();
         btnEditar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("EMPLEADO NUEVO");
+        setTitle("Empleado nuevo");
+        setModalExclusionType(null);
+        setModalityType(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Datos de empleado");
@@ -310,10 +311,7 @@ public class EmpleadoForm extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        ContratoForm contratoFormulario = new ContratoForm(null, rootPaneCheckingEnabled);
-        contratoFormulario.setVisible(true);
-        this.setVisible(false);
-        System.runFinalization();
+        
     }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
