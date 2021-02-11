@@ -9,7 +9,7 @@ package Vista;
  *
  * @author ROBERTO
  */
-public class PagoDeSueldosUml {
+public class PruebaMain {
 
     /**
      * @param args the command line arguments
