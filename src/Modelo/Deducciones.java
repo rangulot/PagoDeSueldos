@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ROBERTO
+ * @author hacke
  */
 @Entity
 @Table(name = "deducciones", catalog = "pago_de_sueldos", schema = "")
@@ -46,30 +46,23 @@ public class Deducciones implements Serializable {
     @Basic(optional = false)
     @Column(name = "iddeduccion", nullable = false)
     private Integer iddeduccion;
-    @Basic(optional = false)
-    @Column(name = "nombre", nullable = false, length = 255)
+    @Column(name = "nombre", length = 255)
     private String nombre;
-    @Basic(optional = false)
-    @Column(name = "descripcion", nullable = false, length = 255)
+    @Column(name = "descripcion", length = 255)
     private String descripcion;
-    @Basic(optional = false)
-    @Column(name = "contingencias_comunes", nullable = false)
-    private double contingenciasComunes;
-    @Basic(optional = false)
-    @Column(name = "seguridad_social", nullable = false)
-    private double seguridadSocial;
-    @Basic(optional = false)
-    @Column(name = "desempleo", nullable = false)
-    private double desempleo;
-    @Basic(optional = false)
-    @Column(name = "formacion_profesional", nullable = false)
-    private double formacionProfesional;
-    @Basic(optional = false)
-    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "contingencias_comunes", precision = 22)
+    private Double contingenciasComunes;
+    @Column(name = "seguridad_social", precision = 22)
+    private Double seguridadSocial;
+    @Column(name = "desempleo", precision = 22)
+    private Double desempleo;
+    @Column(name = "formacion_profesional", precision = 22)
+    private Double formacionProfesional;
+    @Column(name = "fecha_actualizacion", length = 255)
     private String fechaActualizacion;
-    @Basic(optional = false)
-    @Column(name = "estado", nullable = false)
-    private int estado;
+    @Column(name = "estado")
+    private Integer estado;
     @OneToMany(mappedBy = "iddeduccion")
     private List<Detallesnominas> detallesnominasList;
 
@@ -78,18 +71,6 @@ public class Deducciones implements Serializable {
 
     public Deducciones(Integer iddeduccion) {
         this.iddeduccion = iddeduccion;
-    }
-
-    public Deducciones(Integer iddeduccion, String nombre, String descripcion, double contingenciasComunes, double seguridadSocial, double desempleo, double formacionProfesional, String fechaActualizacion, int estado) {
-        this.iddeduccion = iddeduccion;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.contingenciasComunes = contingenciasComunes;
-        this.seguridadSocial = seguridadSocial;
-        this.desempleo = desempleo;
-        this.formacionProfesional = formacionProfesional;
-        this.fechaActualizacion = fechaActualizacion;
-        this.estado = estado;
     }
 
     public Integer getIddeduccion() {
@@ -116,35 +97,35 @@ public class Deducciones implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public double getContingenciasComunes() {
+    public Double getContingenciasComunes() {
         return contingenciasComunes;
     }
 
-    public void setContingenciasComunes(double contingenciasComunes) {
+    public void setContingenciasComunes(Double contingenciasComunes) {
         this.contingenciasComunes = contingenciasComunes;
     }
 
-    public double getSeguridadSocial() {
+    public Double getSeguridadSocial() {
         return seguridadSocial;
     }
 
-    public void setSeguridadSocial(double seguridadSocial) {
+    public void setSeguridadSocial(Double seguridadSocial) {
         this.seguridadSocial = seguridadSocial;
     }
 
-    public double getDesempleo() {
+    public Double getDesempleo() {
         return desempleo;
     }
 
-    public void setDesempleo(double desempleo) {
+    public void setDesempleo(Double desempleo) {
         this.desempleo = desempleo;
     }
 
-    public double getFormacionProfesional() {
+    public Double getFormacionProfesional() {
         return formacionProfesional;
     }
 
-    public void setFormacionProfesional(double formacionProfesional) {
+    public void setFormacionProfesional(Double formacionProfesional) {
         this.formacionProfesional = formacionProfesional;
     }
 
@@ -156,11 +137,11 @@ public class Deducciones implements Serializable {
         this.fechaActualizacion = fechaActualizacion;
     }
 
-    public int getEstado() {
+    public Integer getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Integer estado) {
         this.estado = estado;
     }
 

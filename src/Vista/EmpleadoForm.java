@@ -261,9 +261,15 @@ public class EmpleadoForm extends javax.swing.JDialog {
             int idContrato = empleadoContratoFk.getContratosCount()+1;
             int idDetallesNominas = empleadoDetallesNominasFk.getDetallesnominasCount()+1;
             
-            Empleados empleadoNuevo = new Empleados(idEmpleado, nombres.getText(),
-                    apellidos.getText(), direccion.getText(), dni.getText(), cuentaCorriente.getText(),
-                    telefono.getText(), fechaHoy.toString(), estado);
+            Empleados empleadoNuevo = new Empleados(idEmpleado);
+            empleadoNuevo.setNombres(nombres.getText());
+            empleadoNuevo.setApellidos(apellidos.getText());
+            empleadoNuevo.setDireccion(direccion.getText());
+            empleadoNuevo.setDni(dni.getText());
+            empleadoNuevo.setCuentaCorriente(cuentaCorriente.getText());
+            empleadoNuevo.setTelefono(telefono.getText());
+            empleadoNuevo.setFechaActualizacion(fechaHoy.toString());
+            empleadoNuevo.setEstado(estado);
             
             
             contratoFk.setIdempleado(empleadoNuevo);

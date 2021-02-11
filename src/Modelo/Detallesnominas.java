@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ROBERTO
+ * @author hacke
  */
 @Entity
 @Table(name = "detallesnominas", catalog = "pago_de_sueldos", schema = "")
@@ -40,15 +40,12 @@ public class Detallesnominas implements Serializable {
     @Basic(optional = false)
     @Column(name = "iddetallesnominas", nullable = false)
     private Integer iddetallesnominas;
-    @Basic(optional = false)
-    @Column(name = "responsable", nullable = false, length = 255)
+    @Column(name = "responsable", length = 255)
     private String responsable;
-    @Basic(optional = false)
-    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
+    @Column(name = "fecha_actualizacion", length = 255)
     private String fechaActualizacion;
-    @Basic(optional = false)
-    @Column(name = "estado", nullable = false)
-    private int estado;
+    @Column(name = "estado")
+    private Integer estado;
     @JoinColumn(name = "idnomina", referencedColumnName = "idnomina")
     @ManyToOne
     private Nominas idnomina;
@@ -64,13 +61,6 @@ public class Detallesnominas implements Serializable {
 
     public Detallesnominas(Integer iddetallesnominas) {
         this.iddetallesnominas = iddetallesnominas;
-    }
-
-    public Detallesnominas(Integer iddetallesnominas, String responsable, String fechaActualizacion, int estado) {
-        this.iddetallesnominas = iddetallesnominas;
-        this.responsable = responsable;
-        this.fechaActualizacion = fechaActualizacion;
-        this.estado = estado;
     }
 
     public Integer getIddetallesnominas() {
@@ -97,11 +87,11 @@ public class Detallesnominas implements Serializable {
         this.fechaActualizacion = fechaActualizacion;
     }
 
-    public int getEstado() {
+    public Integer getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Integer estado) {
         this.estado = estado;
     }
 

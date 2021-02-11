@@ -20,7 +20,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author ROBERTO
+ * @author hacke
  */
 public class DeduccionesJpaController implements Serializable {
 

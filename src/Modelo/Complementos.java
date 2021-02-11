@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ROBERTO
+ * @author hacke
  */
 @Entity
 @Table(name = "complementos", catalog = "pago_de_sueldos", schema = "")
@@ -43,21 +43,17 @@ public class Complementos implements Serializable {
     @Basic(optional = false)
     @Column(name = "idcomplemento", nullable = false)
     private Integer idcomplemento;
-    @Basic(optional = false)
-    @Column(name = "nombre", nullable = false, length = 255)
+    @Column(name = "nombre", length = 255)
     private String nombre;
-    @Basic(optional = false)
-    @Column(name = "descripcion", nullable = false, length = 255)
+    @Column(name = "descripcion", length = 255)
     private String descripcion;
-    @Basic(optional = false)
-    @Column(name = "valor", nullable = false)
-    private double valor;
-    @Basic(optional = false)
-    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "valor", precision = 22)
+    private Double valor;
+    @Column(name = "fecha_actualizacion", length = 255)
     private String fechaActualizacion;
-    @Basic(optional = false)
-    @Column(name = "estado", nullable = false)
-    private int estado;
+    @Column(name = "estado")
+    private Integer estado;
     @OneToMany(mappedBy = "idcomplemento")
     private List<Contratos> contratosList;
 
@@ -66,15 +62,6 @@ public class Complementos implements Serializable {
 
     public Complementos(Integer idcomplemento) {
         this.idcomplemento = idcomplemento;
-    }
-
-    public Complementos(Integer idcomplemento, String nombre, String descripcion, double valor, String fechaActualizacion, int estado) {
-        this.idcomplemento = idcomplemento;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.valor = valor;
-        this.fechaActualizacion = fechaActualizacion;
-        this.estado = estado;
     }
 
     public Integer getIdcomplemento() {
@@ -101,11 +88,11 @@ public class Complementos implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public double getValor() {
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 
@@ -117,11 +104,11 @@ public class Complementos implements Serializable {
         this.fechaActualizacion = fechaActualizacion;
     }
 
-    public int getEstado() {
+    public Integer getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Integer estado) {
         this.estado = estado;
     }
 

@@ -244,16 +244,23 @@ public class ContratoForm extends javax.swing.JDialog {
         
         if(verificador.verificarSiCamposVacios(textFields,labels)){
             estado = 1;
-            Contratos contratoNuevo = new Contratos(id, tipoContrato.getText(), fechaDeAlta.getText(),
-                    fechaDeBaja.getText(), fechaHoy.toString(), estado);
+            Contratos contratoNuevo = new Contratos(id);
+            contratoNuevo.setTipoContrato(tipoContrato.getText());
+            contratoNuevo.setFechaAlta(fechaDeAlta.getText());
+            contratoNuevo.setFechaBaja(fechaDeBaja.getText());
+            contratoNuevo.setFechaActualizacion(fechaHoy.toString());
+            contratoNuevo.setEstado(estado);
             
             contratoController.create(contratoNuevo);
             
             CategoriasJpaController categoriaController = new CategoriasJpaController(conexion);
             
-            Categorias categoriaNueva = new Categorias(categoriaController.getCategoriasCount()+1, 
-                    categoria.getText(), Double.parseDouble(sueldoBasico.getText()), 
-                    puestoDestino.getText(), fechaHoy.toString(), estado);
+            Categorias categoriaNueva = new Categorias(categoriaController.getCategoriasCount()+1);
+            categoriaNueva.setNombre(categoria.getText());
+            categoriaNueva.setSueldobasico(Double.parseDouble(sueldoBasico.getText()));
+            categoriaNueva.setPuestodestino(puestoDestino.getText());
+            categoriaNueva.setFechaActualizacion(fechaHoy.toString());
+            categoriaNueva.setEstado(estado);
             
             contratoNuevo.setIdcategoria(categoriaNueva);
             categoriaNueva.setIdcontrato(contratoNuevo);

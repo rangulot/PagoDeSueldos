@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ROBERTO
+ * @author hacke
  */
 @Entity
 @Table(name = "categorias", catalog = "pago_de_sueldos", schema = "")
@@ -45,21 +45,17 @@ public class Categorias implements Serializable {
     @Basic(optional = false)
     @Column(name = "idcategoria", nullable = false)
     private Integer idcategoria;
-    @Basic(optional = false)
-    @Column(name = "nombre", nullable = false, length = 255)
+    @Column(name = "nombre", length = 255)
     private String nombre;
-    @Basic(optional = false)
-    @Column(name = "sueldobasico", nullable = false)
-    private double sueldobasico;
-    @Basic(optional = false)
-    @Column(name = "puestodestino", nullable = false, length = 255)
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "sueldobasico", precision = 22)
+    private Double sueldobasico;
+    @Column(name = "puestodestino", length = 255)
     private String puestodestino;
-    @Basic(optional = false)
-    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
+    @Column(name = "fecha_actualizacion", length = 255)
     private String fechaActualizacion;
-    @Basic(optional = false)
-    @Column(name = "estado", nullable = false)
-    private int estado;
+    @Column(name = "estado")
+    private Integer estado;
     @JoinColumn(name = "idcontrato", referencedColumnName = "idcontrato")
     @ManyToOne
     private Contratos idcontrato;
@@ -71,15 +67,6 @@ public class Categorias implements Serializable {
 
     public Categorias(Integer idcategoria) {
         this.idcategoria = idcategoria;
-    }
-
-    public Categorias(Integer idcategoria, String nombre, double sueldobasico, String puestodestino, String fechaActualizacion, int estado) {
-        this.idcategoria = idcategoria;
-        this.nombre = nombre;
-        this.sueldobasico = sueldobasico;
-        this.puestodestino = puestodestino;
-        this.fechaActualizacion = fechaActualizacion;
-        this.estado = estado;
     }
 
     public Integer getIdcategoria() {
@@ -98,11 +85,11 @@ public class Categorias implements Serializable {
         this.nombre = nombre;
     }
 
-    public double getSueldobasico() {
+    public Double getSueldobasico() {
         return sueldobasico;
     }
 
-    public void setSueldobasico(double sueldobasico) {
+    public void setSueldobasico(Double sueldobasico) {
         this.sueldobasico = sueldobasico;
     }
 
@@ -122,11 +109,11 @@ public class Categorias implements Serializable {
         this.fechaActualizacion = fechaActualizacion;
     }
 
-    public int getEstado() {
+    public Integer getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Integer estado) {
         this.estado = estado;
     }
 

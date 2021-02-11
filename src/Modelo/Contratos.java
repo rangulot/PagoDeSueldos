@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ROBERTO
+ * @author hacke
  */
 @Entity
 @Table(name = "contratos", catalog = "pago_de_sueldos", schema = "")
@@ -45,21 +45,16 @@ public class Contratos implements Serializable {
     @Basic(optional = false)
     @Column(name = "idcontrato", nullable = false)
     private Integer idcontrato;
-    @Basic(optional = false)
-    @Column(name = "tipoContrato", nullable = false, length = 255)
+    @Column(name = "tipoContrato", length = 255)
     private String tipoContrato;
-    @Basic(optional = false)
-    @Column(name = "fecha_alta", nullable = false, length = 255)
+    @Column(name = "fecha_alta", length = 255)
     private String fechaAlta;
-    @Basic(optional = false)
-    @Column(name = "fecha_baja", nullable = false, length = 255)
+    @Column(name = "fecha_baja", length = 255)
     private String fechaBaja;
-    @Basic(optional = false)
-    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
+    @Column(name = "fecha_actualizacion", length = 255)
     private String fechaActualizacion;
-    @Basic(optional = false)
-    @Column(name = "estado", nullable = false)
-    private int estado;
+    @Column(name = "estado")
+    private Integer estado;
     @OneToMany(mappedBy = "idcontrato")
     private List<Categorias> categoriasList;
     @JoinColumn(name = "idempleado", referencedColumnName = "idempleado")
@@ -77,15 +72,6 @@ public class Contratos implements Serializable {
 
     public Contratos(Integer idcontrato) {
         this.idcontrato = idcontrato;
-    }
-
-    public Contratos(Integer idcontrato, String tipoContrato, String fechaAlta, String fechaBaja, String fechaActualizacion, int estado) {
-        this.idcontrato = idcontrato;
-        this.tipoContrato = tipoContrato;
-        this.fechaAlta = fechaAlta;
-        this.fechaBaja = fechaBaja;
-        this.fechaActualizacion = fechaActualizacion;
-        this.estado = estado;
     }
 
     public Integer getIdcontrato() {
@@ -128,11 +114,11 @@ public class Contratos implements Serializable {
         this.fechaActualizacion = fechaActualizacion;
     }
 
-    public int getEstado() {
+    public Integer getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Integer estado) {
         this.estado = estado;
     }
 

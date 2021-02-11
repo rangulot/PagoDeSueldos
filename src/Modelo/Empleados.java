@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ROBERTO
+ * @author hacke
  */
 @Entity
 @Table(name = "empleados", catalog = "pago_de_sueldos", schema = "")
@@ -46,30 +46,22 @@ public class Empleados implements Serializable {
     @Basic(optional = false)
     @Column(name = "idempleado", nullable = false)
     private Integer idempleado;
-    @Basic(optional = false)
-    @Column(name = "nombres", nullable = false, length = 255)
+    @Column(name = "nombres", length = 255)
     private String nombres;
-    @Basic(optional = false)
-    @Column(name = "apellidos", nullable = false, length = 255)
+    @Column(name = "apellidos", length = 255)
     private String apellidos;
-    @Basic(optional = false)
-    @Column(name = "direccion", nullable = false, length = 255)
+    @Column(name = "direccion", length = 255)
     private String direccion;
-    @Basic(optional = false)
-    @Column(name = "dni", nullable = false, length = 20)
+    @Column(name = "dni", length = 20)
     private String dni;
-    @Basic(optional = false)
-    @Column(name = "cuenta_corriente", nullable = false, length = 20)
+    @Column(name = "cuenta_corriente", length = 20)
     private String cuentaCorriente;
-    @Basic(optional = false)
-    @Column(name = "telefono", nullable = false, length = 20)
+    @Column(name = "telefono", length = 20)
     private String telefono;
-    @Basic(optional = false)
-    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
+    @Column(name = "fecha_actualizacion", length = 255)
     private String fechaActualizacion;
-    @Basic(optional = false)
-    @Column(name = "estado", nullable = false)
-    private int estado;
+    @Column(name = "estado")
+    private Integer estado;
     @OneToMany(mappedBy = "idempleado")
     private List<Contratos> contratosList;
     @OneToMany(mappedBy = "idempleado")
@@ -80,18 +72,6 @@ public class Empleados implements Serializable {
 
     public Empleados(Integer idempleado) {
         this.idempleado = idempleado;
-    }
-
-    public Empleados(Integer idempleado, String nombres, String apellidos, String direccion, String dni, String cuentaCorriente, String telefono, String fechaActualizacion, int estado) {
-        this.idempleado = idempleado;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.direccion = direccion;
-        this.dni = dni;
-        this.cuentaCorriente = cuentaCorriente;
-        this.telefono = telefono;
-        this.fechaActualizacion = fechaActualizacion;
-        this.estado = estado;
     }
 
     public Integer getIdempleado() {
@@ -158,11 +138,11 @@ public class Empleados implements Serializable {
         this.fechaActualizacion = fechaActualizacion;
     }
 
-    public int getEstado() {
+    public Integer getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Integer estado) {
         this.estado = estado;
     }
 

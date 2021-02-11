@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ROBERTO
+ * @author hacke
  */
 @Entity
 @Table(name = "nominas", catalog = "pago_de_sueldos", schema = "")
@@ -45,17 +45,15 @@ public class Nominas implements Serializable {
     private Integer idnomina;
     @Column(name = "encargado", length = 255)
     private String encargado;
-    @Basic(optional = false)
-    @Column(name = "totalapagar", nullable = false)
-    private double totalapagar;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "totalapagar", precision = 22)
+    private Double totalapagar;
     @Column(name = "cortemes", length = 255)
     private String cortemes;
-    @Basic(optional = false)
-    @Column(name = "fecha_actualizacion", nullable = false, length = 255)
+    @Column(name = "fecha_actualizacion", length = 255)
     private String fechaActualizacion;
-    @Basic(optional = false)
-    @Column(name = "estado", nullable = false)
-    private int estado;
+    @Column(name = "estado")
+    private Integer estado;
     @OneToMany(mappedBy = "idnomina")
     private List<Detallesnominas> detallesnominasList;
 
@@ -64,13 +62,6 @@ public class Nominas implements Serializable {
 
     public Nominas(Integer idnomina) {
         this.idnomina = idnomina;
-    }
-
-    public Nominas(Integer idnomina, double totalapagar, String fechaActualizacion, int estado) {
-        this.idnomina = idnomina;
-        this.totalapagar = totalapagar;
-        this.fechaActualizacion = fechaActualizacion;
-        this.estado = estado;
     }
 
     public Integer getIdnomina() {
@@ -89,11 +80,11 @@ public class Nominas implements Serializable {
         this.encargado = encargado;
     }
 
-    public double getTotalapagar() {
+    public Double getTotalapagar() {
         return totalapagar;
     }
 
-    public void setTotalapagar(double totalapagar) {
+    public void setTotalapagar(Double totalapagar) {
         this.totalapagar = totalapagar;
     }
 
@@ -113,11 +104,11 @@ public class Nominas implements Serializable {
         this.fechaActualizacion = fechaActualizacion;
     }
 
-    public int getEstado() {
+    public Integer getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Integer estado) {
         this.estado = estado;
     }
 
