@@ -5,10 +5,8 @@
  */
 package Vista;
 
-import java.awt.Image;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.stage.StageStyle;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -161,7 +159,7 @@ public class PagoDeSueldos extends javax.swing.JFrame {
             /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
             * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
             */
-            UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
+            UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
             //</editor-fold>
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(PagoDeSueldos.class.getName()).log(Level.SEVERE, null, ex);
